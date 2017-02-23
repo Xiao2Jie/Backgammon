@@ -1,7 +1,7 @@
 #include "judgeWinner.h"
 
 
-judgeWinner::judgeWinner()
+judgeWinner::judgeWinner(void)
 {
 
 }

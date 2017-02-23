@@ -39,7 +39,7 @@ Backgammon::Backgammon(QWidget *parent)
 
 Backgammon::~Backgammon()
 {
-
+	delete m_pJugdeWinner;
 }
 
 void Backgammon::DrawBoard()
@@ -57,6 +57,8 @@ void Backgammon::slotStartBtnClicked()
 	{
 		ui.startButton->setText(QString::fromLocal8Bit("清除"));
 		m_bStarted = true;
+		m_pGraphicsScene->addEllipse(-40, -40, 35, 35, QPen(Qt::NoPen), QColor(Qt::white));
+		m_arrBoard[7][7] = WHITE;
 	}
 	else
 	{
@@ -115,7 +117,7 @@ void Backgammon::mousePressEvent(QMouseEvent * event)
 	nHm = nHx+8;
 	nHn = nHy+8;
 
-	if(nHm >= 15 || nHm <= 0 || nHn >=15 || nHn <=0)
+	if(nHm >= 15 || nHm < 0 || nHn >=15 || nHn <0)
 	{
 		QMessageBox::warning(this, QString::fromLocal8Bit("警告"),QString::fromLocal8Bit("无法落子！"));
 		return;
@@ -143,9 +145,10 @@ void Backgammon::mousePressEvent(QMouseEvent * event)
 		return;
 	}
 
-	//机器落子TODO
-	ComputerMove* pComputerMove = new ComputerMove(m_arrBoard);
-	pComputerMove->Computer_1();
+	//机器落子
+	ComputerMove* pComputerMove = new ComputerMove();
+	//pComputerMove->Computer_1(m_arrBoard);
+	pComputerMove->MaxMinSearch(m_arrBoard, 2);
 	int nCm = pComputerMove->X();
 	int nCn = pComputerMove->Y();
 	delete pComputerMove;
@@ -160,6 +163,7 @@ void Backgammon::mousePressEvent(QMouseEvent * event)
 		QMessageBox::information(this, QString::fromLocal8Bit("Winner"),QString::fromLocal8Bit("计算机取得胜利！"));
 		CleanBoard();
 		ui.startButton->setText(QString::fromLocal8Bit("开始"));
+		ui.startButton->setChecked(false);
 		m_bStarted = false;
 		return;
 	}

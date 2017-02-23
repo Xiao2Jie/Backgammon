@@ -3,7 +3,7 @@
 class judgeWinner
 {
 public:
-	judgeWinner();
+	judgeWinner(void);
 	~judgeWinner(void);
 	bool IsWon(ePiece piece, ePiece (&array)[15][15]);
 
