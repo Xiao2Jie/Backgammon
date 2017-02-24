@@ -133,10 +133,11 @@ int ComputerMove::MinSearch(ePiece (&arrBoard)[15][15], int deep, int alpha, int
 		if(nScore < nBestScore)
 			nBestScore = nScore;
 		arrBoard[vecPoint[0]][vecPoint[1]] = NONE;
-		//nScore是我这个节点得到的值，beta是目前为止上一层找到的最大值
-		//而上一层是要找最大值，如果nScore小于beta,说明这个分支肯定不会被选择，肯定会选择之前发现的产生beta的分支
-		//所以break掉，不需要再在这个节点的兄弟节点中找了，因为这是min查找，这一层是找最小值，所以这个分支传上去的不会比nScore大
-		//那么就更不会大于beta了，就更不会被上一层传导上上一层去。
+
+		//这是min层，需要在下一层中找到最小值，而nScore是目前得到的下一层的一个值，
+		//beta是这一层目前得到的一个最大值，而这一层要选出一个最大值给上一层，如果目前的
+		//对于这个节点，他要选一个最小值，那么选出的值肯定是小于等于nScore的，而这一层是要选个最大值
+		//给上一层，因此肯定不会选这个节点了，故这个子节点的后面的子节点不要了。
 		if(nScore<beta)
 			break;
 	}
@@ -162,7 +163,11 @@ int ComputerMove::MaxSearch(ePiece (&arrBoard)[15][15], int deep, int alpha, int
 		int nScore = MinSearch(arrBoard, deep-1, alpha, nBestScore>beta?nBestScore:beta);     //预估人类下子的分数
 		if(nScore > nBestScore)
 			nBestScore = nScore;
-		arrBoard[vecPoint[0]][vecPoint[1]] = NONE; 
+		arrBoard[vecPoint[0]][vecPoint[1]] = NONE; 		
+		
+		//这是max层，要在子节点中找到一个max,目前子节点有个值是nScore,那么这个节点的值肯定就不会小于nScore了，
+		//而上一层是min层，是要在这一层中找到一个min，而目前这一层的min是alpha，如果nScore大于alpha，那么肯定不会选择这个节点了
+		//所以这个子节点后面的兄弟节点都不要了。
 		if(nScore>alpha)
 			break;
 	}
