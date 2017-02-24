@@ -35,6 +35,8 @@ Backgammon::Backgammon(QWidget *parent)
 	ui.startButton->setChecked(false);
 	m_bStarted = false;
 	m_pJugdeWinner = new judgeWinner();
+
+	m_nDeep = 4;
 }
 
 Backgammon::~Backgammon()
@@ -71,6 +73,10 @@ void Backgammon::slotStartBtnClicked()
 				ui.startButton->setText(QString::fromLocal8Bit("开始"));
 				CleanBoard();
 				return;
+			}
+			else
+			{
+				ui.startButton->setChecked(true);
 			}
 		}
 	}
@@ -148,7 +154,7 @@ void Backgammon::mousePressEvent(QMouseEvent * event)
 	//机器落子
 	ComputerMove* pComputerMove = new ComputerMove();
 	//pComputerMove->Computer_1(m_arrBoard);
-	pComputerMove->MaxMinSearch(m_arrBoard, 2);
+	pComputerMove->MaxMinSearch(m_arrBoard, m_nDeep);
 	int nCm = pComputerMove->X();
 	int nCn = pComputerMove->Y();
 	delete pComputerMove;

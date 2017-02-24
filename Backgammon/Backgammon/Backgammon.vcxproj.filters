@@ -56,6 +56,9 @@
     <ClCompile Include="judgeWinner.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Evaluation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="backgammon.h">
@@ -79,6 +82,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="judgeWinner.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Evaluation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

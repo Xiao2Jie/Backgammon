@@ -29,6 +29,8 @@ private:
 	QGraphicsScene *m_pGraphicsScene;
 	bool m_bStarted;
 	judgeWinner* m_pJugdeWinner;
+
+	int m_nDeep;
 };
 
 #endif // BACKGAMMON_H

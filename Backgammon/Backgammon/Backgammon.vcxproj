@@ -79,6 +79,7 @@
   <ItemGroup>
     <ClCompile Include="backgammon.cpp" />
     <ClCompile Include="ComputerMove.cpp" />
+    <ClCompile Include="Evaluation.cpp" />
     <ClCompile Include="GeneratedFiles\Debug\moc_backgammon.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
@@ -121,6 +122,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ComputerMove.h" />
+    <ClInclude Include="Evaluation.h" />
     <ClInclude Include="GeneratedFiles\ui_backgammon.h" />
     <ClInclude Include="judgeWinner.h" />
     <ClInclude Include="types.h" />
