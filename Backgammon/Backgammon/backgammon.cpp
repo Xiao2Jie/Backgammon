@@ -36,7 +36,7 @@ Backgammon::Backgammon(QWidget *parent)
 	m_bStarted = false;
 	m_pJugdeWinner = new judgeWinner();
 
-	m_nDeep = 4;
+	m_nDeep = 8;
 }
 
 Backgammon::~Backgammon()

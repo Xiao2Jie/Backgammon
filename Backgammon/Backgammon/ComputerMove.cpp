@@ -56,6 +56,7 @@ QVector<QVector<int>> ComputerMove::GenCandidator(ePiece (&arrBoard)[15][15], eP
 			//	vec.push_back(j);
 			//	vecSum.push_back(vec);
 			//}
+			
 			if(arrBoard[i][j] == NONE)
 			{
 				//某个点的周围八个点是否有棋子
@@ -75,6 +76,35 @@ QVector<QVector<int>> ComputerMove::GenCandidator(ePiece (&arrBoard)[15][15], eP
 				}
 			}
 
+			//if(arrBoard[i][j] == NONE)
+			//{
+			//	//三步之内有没有点
+			//	bool bHasPoint = false;
+			//	for(int m = 0; m<=3; ++m)
+			//	{
+			//		for(int n = 0; n<=3; ++n)
+			//		{
+			//			if(m+n<=3 && arrBoard[i+m][j+n] != NONE)
+			//			{
+			//				bHasPoint = true;
+			//				break;
+			//			}
+			//			
+			//		}
+			//		if(bHasPoint)
+			//			break;
+
+			//	}
+			//	if(bHasPoint)
+			//	{
+			//		QVector<int> vec;
+			//		vec.push_back(i);
+			//		vec.push_back(j);
+			//		vecSum.push_back(vec);
+			//	}
+			//	
+			//}
+
 		}
 	}
 	return vecSum;
@@ -92,7 +122,8 @@ void ComputerMove::MaxMinSearch(ePiece (&arrBoard)[15][15], int deep)
 	{
 		QVector<int> vecPoint = vecCandidator[i];        //待选的点
 		arrBoard[vecPoint[0]][vecPoint[1]] = WHITE;     //机器下一个子
-		int nScore = MinSearch(arrBoard, deep-1, nBestScore>0x8fffffff ? nBestScore:0x8fffffff, 0x7fffffff);     //预估人类下子的分数
+		//int nScore = MinSearch(arrBoard, deep-1, nBestScore>0x8fffffff ? nBestScore:0x8fffffff, 0x7fffffff);     //预估人类下子的分数
+		int nScore = MinSearch(arrBoard, deep-1, 0x8fffffff, 0x7fffffff);     //预估人类下子的分数
 
 		if(nScore == nBestScore)
 		{
@@ -130,10 +161,10 @@ int ComputerMove::MinSearch(ePiece (&arrBoard)[15][15], int deep, int alpha, int
 		QVector<int> vecPoint = vecCandidator[i];        //待选的点
 		arrBoard[vecPoint[0]][vecPoint[1]] = BLACK;     //人类下一个子
 		int nScore = MaxSearch(arrBoard, deep-1, nBestScore<alpha?nBestScore:alpha, beta);     //预估机器下子的分数
+		
+		arrBoard[vecPoint[0]][vecPoint[1]] = NONE;
 		if(nScore < nBestScore)
 			nBestScore = nScore;
-		arrBoard[vecPoint[0]][vecPoint[1]] = NONE;
-
 		//这是min层，需要在下一层中找到最小值，而nScore是目前得到的下一层的一个值，
 		//beta是这一层目前得到的一个最大值，而这一层要选出一个最大值给上一层，如果目前的
 		//对于这个节点，他要选一个最小值，那么选出的值肯定是小于等于nScore的，而这一层是要选个最大值
@@ -161,10 +192,10 @@ int ComputerMove::MaxSearch(ePiece (&arrBoard)[15][15], int deep, int alpha, int
 		QVector<int> vecPoint = vecCandidator[i];        //待选的点
 		arrBoard[vecPoint[0]][vecPoint[1]] = WHITE;     //机器下一个子
 		int nScore = MinSearch(arrBoard, deep-1, alpha, nBestScore>beta?nBestScore:beta);     //预估人类下子的分数
+		
+		arrBoard[vecPoint[0]][vecPoint[1]] = NONE; 		
 		if(nScore > nBestScore)
 			nBestScore = nScore;
-		arrBoard[vecPoint[0]][vecPoint[1]] = NONE; 		
-		
 		//这是max层，要在子节点中找到一个max,目前子节点有个值是nScore,那么这个节点的值肯定就不会小于nScore了，
 		//而上一层是min层，是要在这一层中找到一个min，而目前这一层的min是alpha，如果nScore大于alpha，那么肯定不会选择这个节点了
 		//所以这个子节点后面的兄弟节点都不要了。
